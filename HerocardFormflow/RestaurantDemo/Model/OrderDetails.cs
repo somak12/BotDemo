@@ -32,18 +32,19 @@ namespace RestaurantDemo.Model
             .Message("Welcome to demo Restaurant bot!")
             .Field(new FieldReflector<OrderDetails>(nameof(MenuItems))
             .SetType(null)
+            .SetFieldDescription("Menu items")
             .SetDefine((state, field) =>
             {
                 foreach (var item in menuItems)
                 {
                     field
-                    .AddDescription(item, new DescribeAttribute() { Title = item.ItemName, Description = item.ItemName, SubTitle = item.Description, Image = item.ItemImage})
+                    .AddDescription(item, new DescribeAttribute(title : item.ItemName, description : item.ItemName, subTitle : item.Description, image : item.ItemImage))
                     .AddTerms(item, item.ItemName);
                 }
 
                 return Task.FromResult(true);
             })
-            .SetPrompt(new PromptAttribute(" Choose your type of {&} \n {||} \n")
+            .SetPrompt(new PromptAttribute("Select from the {&} \n {||} \n")
             {
                 ChoiceStyle = ChoiceStyleOptions.Carousel
 
